@@ -2,12 +2,12 @@ import { ResultSetHeader } from 'mysql2/promise';
 import Product from '../interfaces/productInterface';
 import connection from './connection';
 
-// public async getAll(): Promise<Book[]> {
-//   const result = await this.connection
-//     .execute('SELECT * FROM books');
-//   const [rows] = result;
-//   return rows as Book[];
-// }
+async function getAll(): Promise<Product[]> {
+  const result = await connection
+    .execute('SELECT * FROM Trybesmith.Products');
+  const [rows] = result;
+  return rows as Product[];
+}
 
 async function create(product: Product): Promise<Product> {
   const { name, amount } = product;
@@ -20,4 +20,4 @@ async function create(product: Product): Promise<Product> {
   return { id: insertId, name, amount };
 }
 
-export default { create };
+export default { create, getAll };
