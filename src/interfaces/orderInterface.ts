@@ -1,13 +1,7 @@
 import { RowDataPacket } from 'mysql2/promise';
 
-export interface Order {
+export interface OrderSQL extends RowDataPacket {
   id?: number;
   userId: number;
   productsIds: number[];
-}
-
-export interface OrderSQL extends RowDataPacket {
-  id?: any;
-  userId: any;
-  productsIds: any;
 }
