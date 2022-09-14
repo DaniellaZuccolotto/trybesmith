@@ -1,12 +1,6 @@
-// import { RowDataPacket } from 'mysql2/promise';
+import { ResultSetHeader } from 'mysql2/promise';
 import { OrderSQL } from '../interfaces/orderInterface';
 import connection from './connection';
-
-// interface OrderSQL extends RowDataPacket {
-//   id?: number;
-//   userId: number;
-//   productsIds: number[] | number;
-// }
 
 async function getAll(): Promise<OrderSQL[]> {
   const result = await connection
@@ -29,15 +23,16 @@ async function getAll(): Promise<OrderSQL[]> {
   return orders;
 }
 
-// async function create(product: Product): Promise<Product> {
-//   const { name, amount } = product;
-//   const result = await connection.execute<ResultSetHeader>(
-//     'INSERT INTO Trybesmith.Products (name, amount) VALUES (?, ?)',
-//     [name, amount],
-//   );
-//   const [dataInserted] = result;
-//   const { insertId } = dataInserted;
-//   return { id: insertId, name, amount };
-// }
+async function create(productsIds: number[], userId: number): Promise<any> {
+  productsIds.forEach(async (productsId) => {
+    const [dataInserted] = await connection.execute<ResultSetHeader>(`
+    INSERT INTO Trybesmith.Orders (userId)
+    VALUES (?);`, [userId]);
+    const { insertId } = dataInserted;
+    await connection.execute<ResultSetHeader>(`
+    UPDATE Trybesmith.Products SET orderId = ? WHERE id = ?;`, [insertId, productsId]);
+  });
+  return { userId, productsIds };
+}
 
-export default { getAll };
+export default { getAll, create };

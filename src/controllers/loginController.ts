@@ -4,6 +4,11 @@ import loginService from '../services/loginService';
 
 const secret = 'mysecretpassword';
 
+// interface UserLogin {
+//   username: string;
+//   id: string;
+// }
+
 async function login(req: Request, res: Response) {
   const { username, password } = req.body;
   const { code, message, data } = await loginService.getUser(username, password);
