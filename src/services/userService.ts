@@ -62,6 +62,7 @@ async function create(user: User): Promise<any> {
   const validatePasswordResult = validatePassword(user.password);
   if (validatePasswordResult !== true) return validatePasswordResult;
   await userModel.create(user);
+  return { code: 201 };
 }
 
 export default { create };
