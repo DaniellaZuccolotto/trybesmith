@@ -29,5 +29,10 @@ async function getUser(username: string, password: string): Promise<any> {
   if (verifyUserExist !== true) return verifyUserExist;
   return { code: 200, data: user };
 }
+
+async function getUserName(username: string) {
+  const users = await loginModel.getUser(username);
+  return users;
+}
   
-export default { getUser };
+export default { getUser, getUserName };

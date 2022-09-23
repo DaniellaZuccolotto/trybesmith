@@ -1,6 +1,6 @@
 import jwt from 'jsonwebtoken';
 import { Request, Response, NextFunction } from 'express';
-import loginModel from '../models/loginModel';
+import loginService from '../services/loginService';
 
 const secret = 'mysecretpassword';
 
@@ -20,7 +20,7 @@ export default async (req: NewRequest, res: Response, next: NextFunction) => {
       return res.status(401).json({ message: 'Token not found' });
     }
     const { username } = jwt.verify(token, secret) as UserLogin;
-    const user = await loginModel.getUser(username);
+    const user = await loginService.getUserName(username);
     if (!user) {
       return res.status(401).json({ message: 'Invalid token' });
     }
